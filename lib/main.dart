@@ -30,6 +30,10 @@ import 'features/meal_detail/domain/usecases/get_meal_by_id_usecase.dart';
 import 'features/home/presentation/providers/home_provider.dart';
 import 'features/meal_detail/presentation/providers/meal_detail_provider.dart';
 import 'features/profile/presentation/providers/profile_provider.dart';
+
+import 'features/favorites/data/datasources/favorites_local_datasource.dart';
+import 'features/favorites/data/repositories/favorites_repository_impl.dart';
+import 'features/favorites/domain/repositories/favorites_repository.dart';
 import 'features/favorites/presentation/providers/favorites_provider.dart';
 
 void main() async {
@@ -62,7 +66,17 @@ void main() async {
   final getMealsByAreaUseCase =
   GetMealsByAreaUseCase(repository: mealRepository);
 
-  final appState = AppState(authRepository: authRepository);
+  final favoritesLocalDataSource = FavoritesLocalDataSourceImpl(
+    sharedPreferences: sharedPreferences,
+  );
+  final FavoritesRepository favoritesRepository = FavoritesRepositoryImpl(
+    localDataSource: favoritesLocalDataSource,
+  );
+
+  final appState = AppState(
+    authRepository: authRepository,
+    favoritesLocalDataSource: favoritesLocalDataSource,
+  );
   final appRouter = AppRouter(appState: appState);
 
   runApp(
@@ -91,11 +105,14 @@ void main() async {
                 MealDetailProvider(getMealByIdUseCase: getMealByIdUseCase),
           ),
           ChangeNotifierProvider(
-            create: (_) => ProfileProvider(authRepository: authRepository),
+            create: (_) => ProfileProvider(
+              authRepository: authRepository,
+              favoritesLocalDataSource: favoritesLocalDataSource,
+            ),
           ),
           ChangeNotifierProvider(
             create: (_) => FavoritesProvider(
-              authRepository: authRepository,
+              favoritesRepository: favoritesRepository,
               mealRepository: mealRepository,
             ),
           ),

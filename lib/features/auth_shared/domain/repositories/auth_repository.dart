@@ -10,8 +10,4 @@ abstract class AuthRepository {
   Future<Either<Failure, User?>> getCurrentUser();
   Future<Either<Failure, User>> updateUser(User user);
   Future<Either<Failure, void>> deleteUser();
-
-  Future<Either<Failure, List<String>>> getFavoriteMealIds();
-  Future<Either<Failure, void>> addFavoriteMealId(String mealId);
-  Future<Either<Failure, void>> removeFavoriteMealId(String mealId);
 }

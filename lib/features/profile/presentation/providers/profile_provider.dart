@@ -3,13 +3,18 @@ import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../auth_shared/domain/entities/user.dart';
 import '../../../auth_shared/domain/repositories/auth_repository.dart';
+import '../../../favorites/data/datasources/favorites_local_datasource.dart';
 
 enum ProfileState { initial, loading, loaded, error, saving }
 
 class ProfileProvider extends ChangeNotifier {
   final AuthRepository authRepository;
+  final FavoritesLocalDataSource favoritesLocalDataSource;
 
-  ProfileProvider({required this.authRepository});
+  ProfileProvider({
+    required this.authRepository,
+    required this.favoritesLocalDataSource,
+  });
 
   ProfileState _state = ProfileState.initial;
   String? _errorMessage;
@@ -97,7 +102,8 @@ class ProfileProvider extends ChangeNotifier {
         _errorMessage = failure.message;
         success = false;
       },
-          (_) {
+          (_) async {
+        await favoritesLocalDataSource.clearFavorites();
         _user = null;
         _profileImage = null;
         _state = ProfileState.initial;

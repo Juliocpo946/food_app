@@ -1,15 +1,18 @@
 import 'package:flutter/foundation.dart';
-import '../../../auth_shared/domain/repositories/auth_repository.dart';
 import '../../../meals_shared/domain/entities/meal.dart';
 import '../../../meals_shared/domain/repositories/meal_repository.dart';
+import '../../domain/repositories/favorites_repository.dart';
 
 enum FavoritesState { initial, loading, loaded, error }
 
 class FavoritesProvider extends ChangeNotifier {
-  final AuthRepository authRepository;
+  final FavoritesRepository favoritesRepository;
   final MealRepository mealRepository;
 
-  FavoritesProvider({required this.authRepository, required this.mealRepository});
+  FavoritesProvider({
+    required this.favoritesRepository,
+    required this.mealRepository,
+  });
 
   FavoritesState _state = FavoritesState.initial;
   String? _errorMessage;
@@ -24,7 +27,7 @@ class FavoritesProvider extends ChangeNotifier {
     _state = FavoritesState.loading;
     notifyListeners();
 
-    final idsResult = await authRepository.getFavoriteMealIds();
+    final idsResult = await favoritesRepository.getFavoriteMealIds();
     idsResult.fold(
           (failure) {
         _state = FavoritesState.error;
@@ -58,11 +61,11 @@ class FavoritesProvider extends ChangeNotifier {
     if (isFavorite(meal.id)) {
       _favorites.removeWhere((m) => m.id == meal.id);
       _favoriteIds.remove(meal.id);
-      await authRepository.removeFavoriteMealId(meal.id);
+      await favoritesRepository.removeFavoriteMealId(meal.id);
     } else {
       _favorites.add(meal);
       _favoriteIds.add(meal.id);
-      await authRepository.addFavoriteMealId(meal.id);
+      await favoritesRepository.addFavoriteMealId(meal.id);
     }
     notifyListeners();
   }

@@ -1,12 +1,17 @@
 import 'package:flutter/foundation.dart';
 import '../../features/auth_shared/domain/repositories/auth_repository.dart';
+import '../../features/favorites/data/datasources/favorites_local_datasource.dart';
 
 enum AuthStatus { unknown, authenticated, unauthenticated }
 
 class AppState extends ChangeNotifier {
   final AuthRepository authRepository;
+  final FavoritesLocalDataSource favoritesLocalDataSource;
 
-  AppState({required this.authRepository});
+  AppState({
+    required this.authRepository,
+    required this.favoritesLocalDataSource,
+  });
 
   AuthStatus _authStatus = AuthStatus.unknown;
 
@@ -36,7 +41,9 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void logout() {
+  Future<void> logout() async {
+    await authRepository.logout();
+    await favoritesLocalDataSource.clearFavorites();
     _authStatus = AuthStatus.unauthenticated;
     notifyListeners();
   }

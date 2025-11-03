@@ -95,34 +95,4 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(CacheFailure(e.message));
     }
   }
-
-  @override
-  Future<Either<Failure, List<String>>> getFavoriteMealIds() async {
-    try {
-      final ids = await localDataSource.getFavoriteMealIds();
-      return Right(ids);
-    } on CacheException catch (e) {
-      return Left(CacheFailure(e.message));
-    }
-  }
-
-  @override
-  Future<Either<Failure, void>> addFavoriteMealId(String mealId) async {
-    try {
-      await localDataSource.addFavoriteMealId(mealId);
-      return const Right(null);
-    } on CacheException catch (e) {
-      return Left(CacheFailure(e.message));
-    }
-  }
-
-  @override
-  Future<Either<Failure, void>> removeFavoriteMealId(String mealId) async {
-    try {
-      await localDataSource.removeFavoriteMealId(mealId);
-      return const Right(null);
-    } on CacheException catch (e) {
-      return Left(CacheFailure(e.message));
-    }
-  }
 }
