@@ -73,7 +73,7 @@ Sigue estos pasos para configurar y ejecutar el proyecto localmente.
 
     ```sh
     git clone [URL-DEL-REPOSITORIO]
-    cd foot_app
+    cd food_app
     ```
 
 2.  **Instalar dependencias de Flutter:**
