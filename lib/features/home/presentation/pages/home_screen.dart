@@ -67,11 +67,16 @@ class _HomeScreenState extends State<HomeScreen> {
       'Chicken': 'https://www.themealdb.com/images/category/chicken.png',
       'Dessert': 'https://www.themealdb.com/images/category/dessert.png',
       'Lamb': 'https://www.themealdb.com/images/category/lamb.png',
+      'Miscellaneous':'https://www.themealdb.com/images/category/miscellaneous.png',
       'Pasta': 'https://www.themealdb.com/images/category/pasta.png',
       'Pork': 'https://www.themealdb.com/images/category/pork.png',
       'Seafood': 'https://www.themealdb.com/images/category/seafood.png',
-      'Vegetarian':
-      'https://www.themealdb.com/images/category/vegetarian.png',
+      'Side':'https://www.themealdb.com/images/category/side.png',
+      'Starter':'https://www.themealdb.com/images/category/starter.png',
+      'Vegan':'https://www.themealdb.com/images/category/vegan.png',
+      'Vegetarian': 'https://www.themealdb.com/images/category/vegetarian.png',
+      'Breakfast':'https://www.themealdb.com/images/category/breakfast.png',
+      'Goat':'https://www.themealdb.com/images/category/goat.png'
     };
 
     return categories
@@ -110,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
           onSubmitted: _performSearch,
         )
             : const Text(
-          'Tijuana, B.C.',
+          'Bienvenido',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,

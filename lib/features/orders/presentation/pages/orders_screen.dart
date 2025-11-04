@@ -76,10 +76,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   subtitle: Text(
                     '${_formatDate(order.timestamp)} - \$${order.total.toStringAsFixed(2)}',
                   ),
-                  trailing: Chip(
-                    label: Text(_getStatusText(order.status)),
-                    backgroundColor: _getStatusColor(order.status),
-                  ),
+                  //trailing: Chip(
+                    //label: Text(_getStatusText(order.status)),
+                    //backgroundColor: _getStatusColor(order.status),
+                  //),
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(16),
