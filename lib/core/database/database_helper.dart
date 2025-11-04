@@ -53,6 +53,7 @@ class DatabaseHelper {
         name TEXT NOT NULL,
         thumbnail TEXT NOT NULL,
         price REAL NOT NULL,
+        category TEXT NOT NULL,
         quantity INTEGER NOT NULL
       )
     ''');
@@ -60,7 +61,7 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE $tableOrders (
         id TEXT PRIMARY KEY,
-        date TEXT NOT NULL,
+        timestamp INTEGER NOT NULL,
         total REAL NOT NULL,
         status TEXT NOT NULL
       )
@@ -87,6 +88,7 @@ class DatabaseHelper {
           name TEXT NOT NULL,
           thumbnail TEXT NOT NULL,
           price REAL NOT NULL,
+          category TEXT NOT NULL,
           quantity INTEGER NOT NULL
         )
       ''');
@@ -94,7 +96,7 @@ class DatabaseHelper {
       await db.execute('''
         CREATE TABLE $tableOrders (
           id TEXT PRIMARY KEY,
-          date TEXT NOT NULL,
+          timestamp INTEGER NOT NULL,
           total REAL NOT NULL,
           status TEXT NOT NULL
         )

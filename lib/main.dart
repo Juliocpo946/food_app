@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'app/my_app.dart';
 import 'core/application/app_state.dart';
@@ -50,6 +51,7 @@ import 'features/orders/presentation/providers/orders_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
 
   final dbHelper = DatabaseHelper.instance;
   final httpClient = HttpClient();
@@ -100,46 +102,46 @@ void main() async {
 
   runApp(
     //DevicePreview(
-      //enabled: kDebugMode,
-      //builder: (context) =>
-          MultiProvider(
-        providers: [
-          ChangeNotifierProvider.value(value: appState),
-          ChangeNotifierProvider(create: (_) => LoginProvider(loginUseCase: loginUseCase)),
-          ChangeNotifierProvider(create: (_) => RegisterProvider(registerUseCase: registerUseCase)),
-          ChangeNotifierProvider(
-            create: (_) => HomeProvider(
-              searchMealsUseCase: searchMealsUseCase,
-              getCategoriesUseCase: getCategoriesUseCase,
-              getMealsByCategoryUseCase: getMealsByCategoryUseCase,
-              getAreasUseCase: getAreasUseCase,
-              getMealsByAreaUseCase: getMealsByAreaUseCase,
-            ),
+    //enabled: kDebugMode,
+    //builder: (context) =>
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: appState),
+        ChangeNotifierProvider(create: (_) => LoginProvider(loginUseCase: loginUseCase)),
+        ChangeNotifierProvider(create: (_) => RegisterProvider(registerUseCase: registerUseCase)),
+        ChangeNotifierProvider(
+          create: (_) => HomeProvider(
+            searchMealsUseCase: searchMealsUseCase,
+            getCategoriesUseCase: getCategoriesUseCase,
+            getMealsByCategoryUseCase: getMealsByCategoryUseCase,
+            getAreasUseCase: getAreasUseCase,
+            getMealsByAreaUseCase: getMealsByAreaUseCase,
           ),
-          ChangeNotifierProvider(
-            create: (_) => MealDetailProvider(getMealByIdUseCase: getMealByIdUseCase),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => MealDetailProvider(getMealByIdUseCase: getMealByIdUseCase),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProfileProvider(
+            authRepository: authRepository,
+            favoritesLocalDataSource: favoritesLocalDataSource,
           ),
-          ChangeNotifierProvider(
-            create: (_) => ProfileProvider(
-              authRepository: authRepository,
-              favoritesLocalDataSource: favoritesLocalDataSource,
-            ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => FavoritesProvider(
+            favoritesRepository: favoritesRepository,
+            mealRepository: mealRepository,
           ),
-          ChangeNotifierProvider(
-            create: (_) => FavoritesProvider(
-              favoritesRepository: favoritesRepository,
-              mealRepository: mealRepository,
-            ),
-          ),
-          ChangeNotifierProvider(
-            create: (_) => CartProvider(cartRepository: cartRepository),
-          ),
-          ChangeNotifierProvider(
-            create: (_) => OrdersProvider(ordersRepository: ordersRepository),
-          ),
-        ],
-        child: MyApp(router: appRouter),
-      ),
-    //),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CartProvider(cartRepository: cartRepository),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => OrdersProvider(ordersRepository: ordersRepository),
+        ),
+      ],
+      child: MyApp(router: appRouter),
+    ),
+  //);
   );
 }

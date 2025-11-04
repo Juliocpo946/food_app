@@ -1,8 +1,9 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../cart/domain/entities/cart_item.dart';
 
 class WhatsAppService {
-  static const String _phoneNumber = '5215551234567';
+  static final String _phoneNumber = dotenv.env['WHATSAPP_PHONE_NUMBER'] ?? '529681520437';
 
   static Future<bool> sendOrder(List<CartItem> items, double total) async {
     if (items.isEmpty) return false;
